@@ -1,0 +1,179 @@
+# output dir
+detectron2/output
+detectron2/instant_test_output
+detectron2/inference_test_output
+
+
+*.png
+*.json
+*.diff
+*.jpg
+!detectron2/projects/DensePose/doc/images/*.jpg
+
+# compilation and distribution
+__pycache__
+_ext
+*.pyc
+*.pyd
+*.so
+*.dll
+*.egg-info/
+build/
+dist/
+wheels/
+
+# pytorch/python/numpy formats
+*.pth
+*.pkl
+*.npy
+*.ts
+model_ts*.txt
+
+# ipython/jupyter notebooks
+#*.ipynb
+**/.ipynb_checkpoints/
+
+# Editor temporaries
+*.swn
+*.swo
+*.swp
+*~
+
+# editor settings
+.idea
+.vscode
+_darcs
+
+# project dirs
+detectron2/detectron2/model_zoo/configs
+detectron2/datasets/*
+!detectron2/datasets/*.*
+detectron2/projects/*/datasets
+detectron2/models
+detectron2/snippet
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+mmdetection/htmlcov/
+mmdetection/.tox/
+mmdetection/.coverage
+mmdetection/.coverage.*
+mmdetection/.cache
+mmdetection/nosetests.xml
+mmdetection/coverage.xml
+mmdetection/*.cover
+mmdetection/.hypothesis/
+mmdetection/.pytest_cache/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+
+# Flask stuff:
+mmdetection/instance/
+mmdetection/.webassets-cache
+
+# Scrapy stuff:
+.scrapy
+
+# Sphinx documentation
+mmdetection/docs/en/_build/
+mmdetection/docs/zh_cn/_build/
+
+# PyBuilder
+mmdetection/target/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# celery beat schedule file
+celerybeat-schedule
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.env
+.venv
+mmdetection/env/
+mmdetection/venv/
+mmdetection/ENV/
+mmdetection/env.bak/
+mmdetection/venv.bak/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+mmdetection/site
+
+# mypy
+mmdetection/.mypy_cache/
+
+mmdetection/data/
+mmdetection/data
+.vscode
+.idea
+.DS_Store
+
+# custom
+*.pkl
+*.pkl.json
+*.log.json
+mmdetection/docs/modelzoo_statistics.md
+mmdetection/mmdet/.mim
+mmdetection/work_dirs/
+
+# Pytorch
+*.pth
+*.py~
+*.sh~
+
