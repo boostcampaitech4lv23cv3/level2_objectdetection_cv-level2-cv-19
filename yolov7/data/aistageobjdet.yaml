@@ -1,0 +1,12 @@
+# AI stage
+# competition
+# boostcamp level2 object detection 
+
+train: ./aistage/train.txt
+val: ./aistage/val.txt
+test:  ./aistage/test.txt
+
+# Classes
+nc: 10
+# classes names
+names: [ "General trash", "Paper", "Paper pack", "Metal", "Glass", "Plastic", "Styrofoam", "Plastic bag", "Battery", "Clothing" ]
