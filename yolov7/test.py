@@ -16,7 +16,7 @@ from utils.general import coco80_to_coco91_class, check_dataset, check_file, che
 from utils.metrics import ap_per_class, ConfusionMatrix
 from utils.plots import plot_images, output_to_target, plot_study_txt
 from utils.torch_utils import select_device, time_synchronized, TracedModel
-
+import pandas as pd
 
 def test(data,
          weights=None,
@@ -40,7 +40,8 @@ def test(data,
          half_precision=True,
          trace=False,
          is_coco=False,
-         v5_metric=False):
+         v5_metric=False,
+         save_submission=False):
     # Initialize/load model and set device
     training = model is not None
     if training:  # called by train.py
@@ -101,6 +102,8 @@ def test(data,
     p, r, f1, mp, mr, map50, map, t0, t1 = 0., 0., 0., 0., 0., 0., 0., 0., 0.
     loss = torch.zeros(3, device=device)
     jdict, stats, ap, ap_class, wandb_images = [], [], [], [], []
+    prediction_strings = []
+    submissionimgfile_names = []
     for batch_i, (img, targets, paths, shapes) in enumerate(tqdm(dataloader, desc=s)):
         img = img.to(device, non_blocking=True)
         img = img.half() if half else img.float()  # uint8 to fp16/32
@@ -150,6 +153,20 @@ def test(data,
                     line = (cls, *xywh, conf) if save_conf else (cls, *xywh)  # label format
                     with open(save_dir / 'labels' / (path.stem + '.txt'), 'a') as f:
                         f.write(('%g ' * len(line)).rstrip() % line + '\n')
+
+            # submission to ai stage competition
+            if save_submission:
+                score_threshold = 0.05
+                prediction_string = ''
+                imgfile_name = 'test/' + path.name# + '.jpg'
+                #PredictionString = (label, score, xmin, ymin, xmax, ymax), .....
+                for *xyxy, conf, cls in predn.tolist():
+                    if conf > score_threshold: 
+                        prediction_string += str(int(cls)) + ' ' + str(conf) + ' ' + str(xyxy[0]) + ' ' + str(
+                        xyxy[1]) + ' ' + str(xyxy[2]) + ' ' + str(xyxy[3]) + ' '
+                     
+                prediction_strings.append(prediction_string)
+                submissionimgfile_names.append(imgfile_name)
 
             # W&B logging - Media Panel Plots
             if len(wandb_images) < log_imgs and wandb_logger.current_epoch > 0:  # Check for test operation
@@ -276,6 +293,15 @@ def test(data,
         except Exception as e:
             print(f'pycocotools unable to run: {e}')
 
+    # submission to ai stage competition
+    if save_submission:
+        submission = pd.DataFrame()
+        submission['PredictionString'] = prediction_strings
+        submission['image_id'] = submissionimgfile_names
+        submissionfile_name = str(save_dir) + '/yolov7_submission.csv'
+        submission.to_csv(submissionfile_name, index=None)
+        print(submission.head())
+
     # Return results
     model.float()  # for training
     if not training:
@@ -309,6 +335,7 @@ if __name__ == '__main__':
     parser.add_argument('--exist-ok', action='store_true', help='existing project/name ok, do not increment')
     parser.add_argument('--no-trace', action='store_true', help='don`t trace model')
     parser.add_argument('--v5-metric', action='store_true', help='assume maximum recall as 1.0 in AP calculation')
+    parser.add_argument('--save-submission', action='store_true', help='save submission file to *.csv')
     opt = parser.parse_args()
     opt.save_json |= opt.data.endswith('coco.yaml')
     opt.data = check_file(opt.data)  # check file
@@ -330,7 +357,8 @@ if __name__ == '__main__':
              save_hybrid=opt.save_hybrid,
              save_conf=opt.save_conf,
              trace=not opt.no_trace,
-             v5_metric=opt.v5_metric
+             v5_metric=opt.v5_metric,
+             save_submission=opt.save_submission
              )
 
     elif opt.task == 'speed':  # speed benchmarks
