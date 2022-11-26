@@ -1,3 +1,2 @@
-python train_aux.py --workers 4 --device 0 --batch-size 10 --data data/aistageobjdet.yaml --img 1024 1024 --cfg cfg/training/yolov7-e6e-custom.yaml --weights 'yolov7-e6e_training.pt' --name yolov7-w6-custom --hyp data/hyp.scratch.custom.yaml  --epochs 120
-python test.py --data data/aistageobjdet.yaml --img 1024 --batch 9 --conf 0.001 --iou 0.5 --device 0 --weights runs/train/yolov7-w6-custom/weights/best.pt --name yolov7-e6e-custom-1024 --task test --save-submission
-
+python train_aux.py --workers 6 --device 0 --batch-size 10 --data data/aistageobjdet.yaml --img 1024 1024 --cfg cfg/training/yolov7-e6e-custom.yaml --weights 'yolov7-e6e_training.pt' --hyp data/hyp.scratch.custom.yaml --save-train-batch-size 20 --name yolov7-w6-custom  --epochs 30
+python test.py --data data/aistageobjdet.yaml --img 1024 --batch 9 --conf 0.001 --iou 0.5 --device 0 --weights runs/train/yolov7-w6-customs/weights/best.pt --name yolov7-e6e-custom-102 --task test --save-submission --save-test-batch-size 20

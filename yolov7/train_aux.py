@@ -385,7 +385,7 @@ def train(hyp, opt, device, tb_writer=None):
                 pbar.set_description(s)
 
                 # Plot
-                if plots and ni < 10:
+                if plots and ni < opt.save_train_batch_size:
                     f = save_dir / f'train_batch{ni}.jpg'  # filename
                     Thread(target=plot_images, args=(imgs, targets, paths, f), daemon=True).start()
                     # if tb_writer:
@@ -559,6 +559,7 @@ if __name__ == '__main__':
     parser.add_argument('--artifact_alias', type=str, default="latest", help='version of dataset artifact to be used')
     parser.add_argument('--v5-metric', action='store_true', help='assume maximum recall as 1.0 in AP calculation')
     parser.add_argument('--seed', type=int, default=-1, help='Fixed random seed with specified value')
+    parser.add_argument('--save-train-batch-size', type=int, default=10, help='save how many batches save into jpg')
     opt = parser.parse_args()
 
     # Fixed random seed
