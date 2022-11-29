@@ -1,0 +1,1 @@
+python3 example.py --datasets COCO --img_path /opt/ml/dataset/ --label ../trimtrain.json --convert_output_path ./YOLO --img_type ".jpg" --manifest_path ./ --cls_list_file class.names
