@@ -4,7 +4,7 @@
     ```shell
     $ python -m pip install -r requirements.txt
     ```
-- `skfold.py` : Stratified Group K-Fold를 위한 데이터셋 분할 프로그램
+- `skfold.py` : Stratified Group K-Fold를 위한 데이터셋 분할 프로그램 파일
     ```shell
     $ python skfold.py [-n NUMBER_OF_FOLDS_TO_SPLIT] [-f AREA_SIZE_FOR_FILTERING] [-p DESTINATION_PATH]
     ```
@@ -15,8 +15,8 @@
 - `kfold_verifier.ipynb` : 생성된 K-Fold Dataset이 어떤 비율로 생성되었는지 확인하기 위한 Jupyter Notebook 파일
 
 ## convert2Yolo Package
-- `Format.py` : 
-- `coco2yolo.py` :
+- `Format.py` : 데이터셋 타입 변환을 위한 Python Class 파일
+- `coco2yolo.py` : 데이터셋 타입 변환을 위한 프로그램 파일
   ```shell
   $ python coco2yolo.py [--dataset TYPE_OF_DATASET] [-n TARGET_FOLD_NUMBER] [-f TARGET_FOLD_NUMBER] [-k 1] [-t TRAIN_OR_VAL]
   ```
@@ -32,5 +32,5 @@
   - `--manifest_path` : 생성된 이미지 파일명 manifest 파일 경로 (기본값 ./filter_{FILTER_SIZE}/nsplit{NUM_SPLIT}/, str)
   - `--cls_list_file` : 데이터셋의 클래스를 나열한 클래스 리스트 텍스트 파일 경로 (기본값 names.txt, str)
   
-- \`names.txt\` : 클래스 리스트 텍스트 파일
-- \`c2y.bat\`, \`c2y.sh\` : Windows 환경(\`.bat\`) 또는 Mac/Linux 환경(\`.sh\`)에서 다수의 변환을 일괄적으로 실행하고자 할 때 사용하는 스크립트 명령어
+- `names.txt` : 클래스 리스트 텍스트 파일
+- `c2y.bat`, `c2y.sh` : Windows 환경(`.bat`) 또는 Mac/Linux 환경(`.sh`)에서 다수의 변환을 일괄적으로 실행하고자 할 때 사용하는 스크립트 명령어
