@@ -41,7 +41,8 @@ def test(data,
          trace=False,
          is_coco=False,
          v5_metric=False,
-         save_submission=False):
+         save_submission=False,
+         save_test_batch_size=3):
     # Initialize/load model and set device
     training = model is not None
     if training:  # called by train.py
@@ -229,9 +230,10 @@ def test(data,
             stats.append((correct.cpu(), pred[:, 4].cpu(), pred[:, 5].cpu(), tcls))
 
         # Plot images
-        if plots and batch_i < 3:
-            f = save_dir / f'test_batch{batch_i}_labels.jpg'  # labels
-            Thread(target=plot_images, args=(img, targets, paths, f, names), daemon=True).start()
+        if plots and batch_i < save_test_batch_size:
+            if training:
+                f = save_dir / f'test_batch{batch_i}_labels.jpg'  # labels
+                Thread(target=plot_images, args=(img, targets, paths, f, names), daemon=True).start()
             f = save_dir / f'test_batch{batch_i}_pred.jpg'  # predictions
             Thread(target=plot_images, args=(img, output_to_target(out), paths, f, names), daemon=True).start()
 
@@ -336,6 +338,7 @@ if __name__ == '__main__':
     parser.add_argument('--no-trace', action='store_true', help='don`t trace model')
     parser.add_argument('--v5-metric', action='store_true', help='assume maximum recall as 1.0 in AP calculation')
     parser.add_argument('--save-submission', action='store_true', help='save submission file to *.csv')
+    parser.add_argument('--save-test-batch-size', type=int, default=3, help='save how many batches save into jpg')
     opt = parser.parse_args()
     opt.save_json |= opt.data.endswith('coco.yaml')
     opt.data = check_file(opt.data)  # check file
@@ -358,7 +361,8 @@ if __name__ == '__main__':
              save_conf=opt.save_conf,
              trace=not opt.no_trace,
              v5_metric=opt.v5_metric,
-             save_submission=opt.save_submission
+             save_submission=opt.save_submission,
+             save_test_batch_size=opt.save_test_batch_size
              )
 
     elif opt.task == 'speed':  # speed benchmarks
